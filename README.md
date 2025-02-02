@@ -1,8 +1,6 @@
 ![alt text](uminho.png) 
 
-#                Licenciatura em Engenharia Informática
-##                  Processamento de Linguagens
-##                          2024/2025      
+# LEI - Processamento de Linguagens 24/25
  
 ## Identificação 
 | Nome                             | Número  |
