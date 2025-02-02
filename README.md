@@ -5,7 +5,7 @@
 |----------------------------------|---------|
 | Joao Pedro Loureiro Pinto        | A104270 |
 
-![alt text](/Users/jp5nto/Desktop/fotoCara.png)
+![alt text](fotoCara.png)
 
 ### Informação
 > Neste Repositorio serão adicionados todos os
