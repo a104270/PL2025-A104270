@@ -12,12 +12,12 @@ desativação.
 - Apresenta resultados parciais e finais
 
 # Estrutura do Código
-1. `on_off_summer(text)`:
+1. `on_off_sum(text)`:
    - Processa texto caractere a caractere
    - Controla estado da soma (ativo/inativo)
    - Retorna lista de resultados
 
-2. `processar_ficheiro(nome_ficheiro)`:
+2. `resultado_final(nome_ficheiro)`:
    - Lê arquivo de entrada
    - Processa linha a linha
    - Trata erros de arquivo
@@ -31,7 +31,7 @@ desativação.
 # Exemplo de Uso
 ```python
 ficheiro = input("Escreva o nome do seu ficheiro: ")
-resultados = processar_ficheiro(ficheiro)
+resultados = resultado_final(ficheiro)
 ```
 
 # Exemplo de formato de Entrada

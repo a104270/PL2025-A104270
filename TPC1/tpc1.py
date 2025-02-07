@@ -1,9 +1,9 @@
 
-def on_off_summer(text):
+def on_off_sum(text):
     """
     Explicação do código:
 
-    Função on_off_summer(text):
+    Função on_off_sum(text):
     - Recebe um texto como entrada para processar
     - Utiliza variáveis de controle:
       * results: lista para armazenar as somas parciais
@@ -20,11 +20,6 @@ def on_off_summer(text):
     4. Adiciona números à soma quando está ativo
     5. Quando encontra "=", adiciona a soma atual à lista de resultados
     6. Continua a acumular a soma entre os sinais de "="
-
-    Tratamento especial:
-    - Primeiro trecho do texto é sempre somado
-    - Respeita o estado de ativação (is_active)
-    - Lida com números restantes no final do texto
     """
 
     results = []
@@ -74,7 +69,7 @@ def on_off_summer(text):
     return results
 
 
-def processar_ficheiro(nome_ficheiro):
+def resultado_final(nome_ficheiro):
 
     try:
         with open(nome_ficheiro, 'r') as ficheiro:
@@ -82,7 +77,7 @@ def processar_ficheiro(nome_ficheiro):
             conteudo = ficheiro.read()
 
             # Processa o conteúdo
-            return on_off_summer(conteudo)
+            return on_off_sum(conteudo)
     except FileNotFoundError:
         print(f"Erro: Ficheiro '{nome_ficheiro}' não encontrado.")
         return []
@@ -93,6 +88,6 @@ def processar_ficheiro(nome_ficheiro):
 
 # Teste
 ficheiro = input("Escreva o nome do ficheiro: ")
-resultados = processar_ficheiro("TPC1/" + ficheiro)
+resultados = resultado_final("TPC1/" + ficheiro)
 for i, resultado in enumerate(resultados, 1):
     print(f"{i}º= -> {resultado}")
