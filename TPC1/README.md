@@ -28,13 +28,25 @@ desativação.
 - "On" retoma a soma
 - "=" marca ponto de resultado parcial
 
+## Testes
+
 ### Exemplo de Uso
 ```python
 ficheiro = input("Escreva o nome do seu ficheiro: ")
 resultados = resultado_final(ficheiro)
 ```
-
 ### Exemplo de formato de Entrada
+> Escreva o nome do ficheiro: ficheiro.txt
 ```
-123On45Off67On89=
+123On45Off67On89=On
+123Off300=On2025-07-23Off45On67=
+12Off34On56=78=
+```
+### Resultados
+```
+1º= -> 257
+2º= -> 380
+3º= -> 2502
+4º= -> 2570
+5º= -> 2648
 ```
