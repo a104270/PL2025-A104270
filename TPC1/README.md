@@ -7,7 +7,7 @@ desativação.
 
 ### Funcionalidades
 - Soma sequências de dígitos em texto
-- Processa comandos "On" e "Off" (case-insensitive)
+- Processa comandos "On" e "Off" 
 - Lê dados de arquivo .txt
 - Apresenta resultados parciais e finais
 
