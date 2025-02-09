@@ -1,4 +1,3 @@
-
 def on_off_sum(text):
     results = []
     current_sum = 0
@@ -59,6 +58,6 @@ def resultado_final(nome_ficheiro):
 
 # Teste
 ficheiro = input("Escreva o nome do ficheiro: ")
-resultados = resultado_final("TPC1/" + ficheiro)
+resultados = resultado_final(ficheiro)
 for i, resultado in enumerate(resultados, 1):
     print(f"{i}º= -> {resultado}")
