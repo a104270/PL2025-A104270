@@ -84,7 +84,6 @@ Função de interface com o sistema de arquivos:
 ### Áreas de Melhoria
 1. Performance:
    - Implementar buffer de leitura para arquivos grandes
-   - Otimizar construção de ‘strings’ para números
 
 ## Conclusão
 
