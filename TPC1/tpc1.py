@@ -7,15 +7,14 @@ def on_off_sum(text):
     i = 0
     while i < len(text):
         if i + 1 < len(text):
-            rest_of_text = text[i:].lower()
-            if rest_of_text.startswith('off'):
+            if text[i:i+3].lower() == 'off':
                 if current_number and is_active:
                     current_sum += int(current_number)
                 current_number = ''
                 is_active = False
                 i += 3
                 continue
-            elif rest_of_text.startswith('on'):
+            elif text[i:i+2].lower() == 'on':
                 if current_number and is_active:
                     current_sum += int(current_number)
                 current_number = ''
@@ -32,12 +31,8 @@ def on_off_sum(text):
 
             if text[i] == '=':
                 results.append(current_sum)
-
         i += 1
 
-    if current_number and is_active:
-        current_sum += int(current_number)
-        results.append(current_sum)
     return results
 
 

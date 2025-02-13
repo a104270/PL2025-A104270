@@ -1,5 +1,12 @@
 # Relatório - Somador On/Off
 
+**Data:** 9 de Fevereiro de 2024  
+
+## Autor
+- **Nome:** Joao Pedro Loureiro Pito
+- **Número:** 104270  
+ ![Foto do Autor](../fotoCara.png)
+
 ## Descrição
 > Programa desenvolvido em Python para processar sequências de números 
 > com comandos de ativação/desativação. 
