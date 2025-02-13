@@ -1,6 +1,6 @@
 # Relatório - Somador On/Off
 
-**Data:** 9 de Fevereiro de 2024  
+**Data:** 12 de Fevereiro de 2025  
 
 ## Autor
 - **Nome:** Joao Pedro Loureiro Pito
