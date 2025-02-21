@@ -56,30 +56,42 @@ O projeto está organizado em três ficheiros principais:
 
 #### 1. Função `processar_ficheiro(lines)`
 A função principal que implementa o parsing do CSV:
-- Processa o conteúdo linha a linha mantendo a integridade dos campos
-- Gerencia estados através de variáveis de controlo:
-  - `register`: Lista temporária para campos de uma linha
-  - `current_field`: Buffer para construção do campo atual
-  - `inside_field`: Controle de campo entre aspas
-  - `data`: Estrutura final com todos os registros
-- Implementa uma lógica robusta para:
-  - Tratamento de campos entre aspas
-  - Gerenciamento de quebras de linha dentro de campos
-  - Processamento de delimitadores (ponto e vírgula)
-  - Limpeza e normalização dos dados
+- Reconstrói as linhas lógicas do CSV considerando campos que contêm quebras de linha
+- Implementa uma abordagem baseada em estados de processamento:
+  - `current_line`: Buffer para construção da linha lógica atual
+  - `in_quotes`: Controla se estamos dentro de um campo entre aspas
+  - `logical_lines`: Lista de linhas lógicas completas
+- Utiliza expressões regulares para extrair campos depois de reconstruir as linhas lógicas
+- Processa cada linha lógica com a seguinte estratégia:
+  - Adiciona um ponto e vírgula ao final para facilitar a captura via regex
+  - Utiliza um padrão regex para capturar os campos:
+    ```python
+    pattern = r'(?:^|;)\s*(?:"((?:[^"]|"")*)"|([^;\r\n]*))(?=;|$)'
+    ```
+    - `(?:^|;)`: Começa no início da linha ou após um ponto e vírgula (não-capturante)
+    - `\s*`: Ignora espaços em branco no início do campo
+    - `(?:"((?:[^"]|"")*)"`: Captura campos entre aspas, permitindo aspas escapadas (`""`)
+    - `|([^;\r\n]*)`: Alternativa para capturar campos sem aspas (até o próximo delimitador)
+    - `(?=;|$)`: Lookahead positivo que verifica se o próximo caractere é ponto e vírgula ou fim da linha
+  - Trata aspas duplicadas dentro de campos (escape de aspas)
+  - Normaliza e limpa os campos capturados
 
 #### 2. Função `interpretar_data(processed_lines)`
 Função responsável pela análise dos dados processados:
 - Extrai e valida o cabeçalho do arquivo
-- Identifica índices das colunas necessárias
-- Implementa três análises principais:
-  - Lista de compositores únicos
-  - Contagem de obras por período
-  - Organização de títulos por período
-- Inclui tratamento de erros para dados ausentes ou mal formatados
+- Identifica índices das colunas necessárias usando `header.index()`
+- Processa cada linha de dados para extrair:
+  - Lista de compositores únicos (usando um conjunto `set`)
+  - Contagem de obras por período (usando um dicionário contador)
+  - Organização de títulos por período (usando dicionário de listas)
+- Implementa validações para:
+  - Verificação de índices válidos
+  - Filtragem de linhas com campos vazios
+  - Garantia de estrutura adequada dos dados
+- Retorna um dicionário organizado com os três tipos de resultados
 
 #### 3. Função `write_results(results)`
-‘Interface’ de apresentação dos resultados:
+'Interface' de apresentação dos resultados:
 - Formata e exibe os compositores em ordem alfabética
 - Apresenta estatísticas de obras por período
 - Lista os títulos organizados por período musical
@@ -147,32 +159,29 @@ O programa gera três tipos principais de relatórios:
 ```
 3. Títulos das obras por período:
 
-   Estrutura dos dados:
-   - ('Nome', 'id da obra')
-
    Barroco:
-   - ('Ab Irato', 'O41')
-   - ('Die Ideale, S.106', 'O58')
-   - ('Fantasy No. 2', 'O170')
-   - ('Hungarian Rhapsody No. 16', 'O146')
-   - ('Hungarian Rhapsody No. 5', 'O44')
-   - ('Hungarian Rhapsody No. 8', 'O159')
-   - ('Impromptu Op.51', 'O66')
-   - ('In the Steppes of Central Asia', 'O161')
-   - ('Mazurkas, Op. 50', 'O48')
-   - ('Military Band No. 1', 'O108')
-   - ('Nocturne in C minor', 'O17')
-   - ('Paganini Variations, Book I', 'O145')
+   - Ab Irato (O41)
+   - Die Ideale, S.106 (O58)
+   - Fantasy No. 2 (O170)
+   - Hungarian Rhapsody No. 16 (O146)
+   - Hungarian Rhapsody No. 5 (O44)
+   - Hungarian Rhapsody No. 8 (O159)
+   - Impromptu Op.51 (O66)
+   - In the Steppes of Central Asia (O161)
+   - Mazurkas, Op. 50 (O48)
+   - Military Band No. 1 (O108)
+   - Nocturne in C minor (O17)
+   - Paganini Variations, Book I (O145)
    - (...)
 
    Contemporâneo:
-   - ('Impromptu, Op. 36', 'O90')
-   - ('Les cinq doigts', 'O35')
-   - ('Polonaises, Op.40', 'O45')
-   - ('Preludes Opus 51', 'O8')
-   - ('Rhapsodies, Op. 79', 'O23')
-   - ('Sonnerie de Ste-Geneviève du Mont-de-Paris', 'O26')
-   - ('Études Op. 25', 'O137')
+   - Impromptu, Op. 36 (O90)
+   - Les cinq doigts (O35)
+   - Polonaises, Op.40 (O45)
+   - Preludes Opus 51 (O8)
+   - Rhapsodies, Op. 79 (O23)
+   - Sonnerie de Ste-Geneviève du Mont-de-Paris (O26)
+   - Études Op. 25 (O137)
    - (...)
   
 ```
@@ -185,6 +194,9 @@ O programa gera três tipos principais de relatórios:
         - Atualmente, a ordenação não leva em conta caracteres acentuados
         - Isso pode causar inconsistências na ordem alfabética em títulos com acentos
         - Implementar normalização Unicode antes da ordenação
+   - Considerar a utilização de bibliotecas como `csv` ou `pandas` para maior eficiência
+        - A implementação atual usa expressões regulares, que podem ser complexas de manter
+        - Bibliotecas padrão oferecem soluções mais robustas para casos especiais
 
 ## Conclusão
 
@@ -195,8 +207,10 @@ dados e produzindo análises úteis e bem organizadas.
 
 A arquitetura do código, dividida em três funções principais com
 responsabilidades bem definidas, facilita a manutenção e extensão do sistema.
-O tratamento cuidadoso de casos especiais e a validação de dados garantem
-a confiabilidade dos resultados gerados.
+O tratamento cuidadoso de casos especiais, especialmente a reconstrução de linhas lógicas
+com campos contendo quebras de linha, garante a precisão do processamento. O uso
+de expressões regulares para a extração de campos proporciona uma solução elegante
+para lidar com a complexidade da estrutura do CSV.
 
 A solução atual serve como base sólida para futuras expansões,
 como inclusão de análises mais complexas ou integração com sistemas

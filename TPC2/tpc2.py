@@ -1,44 +1,59 @@
-def processar_ficheiro(lines):
-    content = "".join(lines).strip()
+import re
 
-    register = [] # Lista temporária para armazenar campos de uma linha
-    current_field = "" # String para construir o campo atual
-    inside_field = False # Indica se estamos num campo entre aspas
-    data = [] # Lista para armazenar todos os registos
+
+def processar_ficheiro(lines):
+    content = "".join(lines)
+
+    # Primeiro precisamos reconstruir as linhas lógicas (campos que contêm quebras de linha)
+    logical_lines = []
+    current_line = ""
+    in_quotes = False
 
     for char in content:
-        if char == ';':
-            if inside_field:
-                current_field += char # Se estiver entre aspas, inclui o ponto e vírgula no campo
-            else:
-                register.append(current_field.strip()) # Caso contrário, finaliza o campo atual
-                current_field = ""
-        elif char in ('\n', '\r'):
-            if inside_field:
-                current_field += ' '  # Se estiver entre aspas, converte quebra de linha em espaço
-            else:
-                if current_field:
-                    register.append(current_field.strip()) # Finaliza campo atual
-                    current_field = ""
-                if register:
-                    data.append(register)  # Finaliza o registo atual
-                    register = []
-        elif char == '"':
-            inside_field = not inside_field # Alterna o estado de estar dentro/fora de aspas
-        else:
-            current_field += char # Adiciona o character ao campo atual
+        if char == '"':
+            in_quotes = not in_quotes
 
-    # Para nao perder o último registo caso nao haja uma quebra de linha no final
-    if current_field:
-        register.append(current_field.strip())
-    if register:
-        data.append(register)
+        current_line += char
+
+        # Se estamos numa nova linha e não estamos dentro de aspas, temos uma linha lógica completa
+        if char == '\n' and not in_quotes:
+            if current_line.strip():
+                logical_lines.append(current_line.strip())
+            current_line = ""
+
+    # Adiciona a última linha se houver
+    if current_line.strip():
+        logical_lines.append(current_line.strip())
+
+    # Agora processamos cada linha lógica para extrair os campos
+    data = []
+    for line in logical_lines:
+        if not line.strip():
+            continue
+
+        fields = []
+        line_with_end = line + ";"  # Adiciona um ponto e vírgula ao final para facilitar o regex
+
+        # Captura campos entre aspas ou até o próximo ponto e vírgula
+        pattern = r'(?:^|;)\s*(?:"((?:[^"]|"")*)"|([^;\r\n]*))(?=;|$)'
+        matches = re.finditer(pattern, line_with_end)
+
+        for match in matches:
+            # Pega o valor do grupo que foi capturado (com ou sem aspas)
+            field = match.group(1) if match.group(1) is not None else match.group(2)
+
+            # Trata aspas duplicadas dentro de campos com aspas (escape de aspas)
+            if field is not None:
+                field = field.replace('""', '"').strip()
+                fields.append(field)
+
+        if fields:
+            data.append(fields)
 
     return data
 
 
 def interpretar_data(processed_lines):
-
     if not processed_lines:
         raise ValueError("Erro: O ficheiro está vazio ou mal formatado.")
 
@@ -51,15 +66,15 @@ def interpretar_data(processed_lines):
     except ValueError:
         raise ValueError(f"Erro: Nome de coluna não encontrado. Colunas detectadas: {header}")
 
-    composers = set() # Conjunto para armazenar compositores únicos
-    period_counter = {} # Dicionário para contar obras por período
-    period_titles = {} # Dicionário para armazenar títulos por período
+    composers = set()
+    period_counter = {}
+    period_titles = {}
 
-    for line in processed_lines[1:]: # Itera sobre todas as linhas exceto o cabeçalho
-        if len(line) <= max(id_idx, title_idx, period_idx, composer_idx): # Salta linhas que não têm todos os campos necessários
+    for line in processed_lines[1:]:
+        if len(line) <= max(id_idx, title_idx, period_idx, composer_idx):
             continue
 
-        id = line[id_idx].strip()
+        id_value = line[id_idx].strip()
         title = line[title_idx].strip()
         period = line[period_idx].strip()
         composer = line[composer_idx].strip()
@@ -69,7 +84,7 @@ def interpretar_data(processed_lines):
 
         composers.add(composer)
         period_counter[period] = period_counter.get(period, 0) + 1
-        period_titles.setdefault(period, []).append((title, id))
+        period_titles.setdefault(period, []).append((title, id_value))
 
     return {
         'composers': sorted(composers),
@@ -90,8 +105,8 @@ def write_results(results):
     print("\n3. Títulos das obras por período:")
     for period, titles in results['period_titles'].items():
         print(f"\n   {period}:")
-        for title in titles:
-            print(f"   - {title}")
+        for title, id_value in titles:
+            print(f"   - {title} ({id_value})")
 
 
 if __name__ == "__main__":
