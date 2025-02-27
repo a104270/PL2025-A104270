@@ -3,7 +3,7 @@
 **Data:** 19 de Fevereiro de 2025  
 
 ## Autor
-- **Nome:** Joao Pedro Loureiro Pito
+- **Nome:** Joao Pedro Loureiro Pinto
 - **Número:** 104270  
  ![Foto do Autor](../fotoCara.png)
 
@@ -194,10 +194,7 @@ O programa gera três tipos principais de relatórios:
         - Atualmente, a ordenação não leva em conta caracteres acentuados
         - Isso pode causar inconsistências na ordem alfabética em títulos com acentos
         - Implementar normalização Unicode antes da ordenação
-   - Considerar a utilização de bibliotecas como `csv` ou `pandas` para maior eficiência
-        - A implementação atual usa expressões regulares, que podem ser complexas de manter
-        - Bibliotecas padrão oferecem soluções mais robustas para casos especiais
-
+  
 ## Conclusão
 
 O Processador de Catálogo Musical demonstra uma implementação robusta
