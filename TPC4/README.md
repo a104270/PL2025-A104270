@@ -47,7 +47,7 @@ A classe `TokenType` define os tipos de ‘tokens’ suportados:
 #### 2. Regras de Reconhecimento de ‘Tokens’
 Implementa funções específicas para cada tipo de token:
 - `t_COMMENT`: Reconhece comentários iniciados por #
-- `t_VARIABLE`: Identifica variáveis SPARQL (começando com ?)
+- `t_VARIABLE`: Identifica variáveis (começando com ?)
 - `t_PREFIX`: Reconhece prefixos no formato namespace:termo
 - `t_STRING`: Processa ‘strings’ com suporte a ‘tags’ de idioma
 - `t_NUMBER`: Identifica e converte números para inteiros
@@ -72,14 +72,14 @@ Implementa funções específicas para cada tipo de token:
 
 #### 5. Secção de Teste
 Código para testar a funcionalidade do tokenizador:
-- Define um exemplo de consulta SPARQL sobre obras de Chuck Berry
+- Define um exemplo de consulta sobre obras de Chuck Berry
 - Chama a função `analyze_query()` para processar a consulta
 - Exibe o resultado da tokenização
 
 ### Regras de Processamento
 1. Ordem de Reconhecimento:
    - Comentários e elementos complexos são processados primeiro
-   - Identificadores são verificados para palavras-chave SPARQL
+   - Identificadores são verificados para palavras-chave
    - Espaços em branco são processados, mas não retornados como ‘tokens’
 
 2. Expressões Regulares Utilizadas:
