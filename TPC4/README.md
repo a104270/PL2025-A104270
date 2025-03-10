@@ -1,4 +1,4 @@
-# Relatório - Análise de um Tokenizador SPARQL
+# Relatório - Análise de um Tokenizador
 
 **Data:** 7 de Março de 2025  
 
