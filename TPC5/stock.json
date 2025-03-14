@@ -1,0 +1,62 @@
+[
+    {
+        "cod": "HW01",
+        "nome": "Hot Wheels Mustang Shelby GT",
+        "quant": 1,
+        "preco": 2.5
+    },
+    {
+        "cod": "HW02",
+        "nome": "Hot Wheels Ferrari F40",
+        "quant": 7,
+        "preco": 2.5
+    },
+    {
+        "cod": "HW03",
+        "nome": "Hot Wheels Nissan Skyline R32",
+        "quant": 4,
+        "preco": 3.0
+    },
+    {
+        "cod": "HW04",
+        "nome": "Hot Wheels McLaren P1",
+        "quant": 6,
+        "preco": 3.5
+    },
+    {
+        "cod": "HW05",
+        "nome": "Hot Wheels Lamborghini Aventador",
+        "quant": 3,
+        "preco": 3.8
+    },
+    {
+        "cod": "HW06",
+        "nome": "Hot Wheels Bugatti Chiron",
+        "quant": 2,
+        "preco": 4.0
+    },
+    {
+        "cod": "HW07",
+        "nome": "Hot Wheels Lexus LFA",
+        "quant": 8,
+        "preco": 3.2
+    },
+    {
+        "cod": "HW08",
+        "nome": "Hot Wheels Porsche 918",
+        "quant": 5,
+        "preco": 3.6
+    },
+    {
+        "cod": "HW09",
+        "nome": "Hot Wheels Toyota GR Yaris",
+        "quant": 6,
+        "preco": 2.9
+    },
+    {
+        "cod": "HW10",
+        "nome": "Hot Wheels Ferrari LaFerrari",
+        "quant": 4,
+        "preco": 3.4
+    }
+]
