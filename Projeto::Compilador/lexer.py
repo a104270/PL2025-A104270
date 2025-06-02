@@ -4,7 +4,6 @@ import ply.lex as lex
 class PascalLexer:
     """
     Classe para o analisador lexico de Pascal usando a biblioteca PLY
-    VERSÃO CORRIGIDA - Mantém estrutura original, corrige problema do while
     """
 
     # Lista de tokens que o nosso lexer vai reconhecer
